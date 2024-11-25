@@ -1,0 +1,49 @@
+create database learning;
+
+use learning;
+
+create table Courses(     
+id INT Primary Key Auto_Increment,
+title VARCHAR(100) Not Null,
+description TEXT
+);
+
+create table Instructors(    
+id INT Primary Key Auto_Increment,
+name VARCHAR(50) Not Null,
+expertise VARCHAR(50) Not Null
+);
+
+create table Students(
+id INT Primary Key Auto_Increment,
+name VARCHAR(50) Not Null,
+email VARCHAR(50) Not Null Unique
+);
+
+create table Enrollments (    
+student_id INT,
+Foreign Key (student_id) References Students(id),
+course_id INT,
+Foreign Key (course_id) References Courses(id),
+enrollment_date DATE Not Null,
+Primary Key (student_id, course_id)
+);
+
+
+use learning;
+
+select * from Courses;
+select * from Instructors;
+select * from Students;
+select * from Enrollments;
+
+
+insert into Courses values('1','Science','desc1'),('2','Maths','desc2'),('3','History','desc3');
+insert into Instructors values ('1','inst1','exp1'),('2','inst2','exp2'),('3','inst3','exp3');
+insert into Students values ('1','stud1','abc@gmail.com'),('2','stud2','def@gmail.com'),('3','stud3','xyz@gmail.com');
+insert into Enrollments values ('2','3','2024-09-14'),('1','2','2024-09-12'),('2','1','2024-09-11');
+
+select title from Courses;
+select name from Instructors;
+select s.name as Student_name ,c.title as Course from Enrollments e join Students s on s.id=e.student_id join Courses c on c.id = e.course_id;
+select c.title as Course_name, count(e.course_id) as Students_enrolled  from Enrollments e join Courses c on c.id = e.course_id group by e.course_id;

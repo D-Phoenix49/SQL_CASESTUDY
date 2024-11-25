@@ -1,0 +1,44 @@
+create database Retail;
+
+use Retail;
+
+create table Products(      
+id INT Primary Key Auto_Increment,
+name VARCHAR(50) Not Null,
+price DECIMAL(10, 2) Not Null,
+stock INT Not Null,
+Check (stock >= 0),
+Check (price > 0)
+);
+
+create table Suppliers ( 
+id INT Primary Key Auto_Increment,
+name VARCHAR(50) Not Null,
+contact VARCHAR(50)
+);
+
+create table Sales(    
+id INT Primary Key Auto_Increment,
+product_id INT,
+Foreign Key (product_id) References Products(id),
+date DATE Not Null,
+quantity INT Not Null,
+Check (quantity > 0),
+total_price DECIMAL(10, 2) Not Null
+);
+
+use Retail;
+
+select * from Products;
+select * from Suppliers;
+select * from Sales;
+
+insert into Products values('1','Pencil',20,100),('2','Scale',10,50),('3','paper',5,500);
+insert into Suppliers values ('1','abc','8903457284'),('2','vbn','8903456284'),('3','zyx','7803457284');
+insert into Sales values (1,2,'2024-10-09',5,50),(2,3,'2024-07-08',2,10),(3,1,'2024-11-12',3,60);
+
+
+select name from Products;
+select * from Products where stock<10;
+select p.name, s.total_price from Sales s join Products p on s.product_id=p.id;
+select p.name, sum(s.total_price) from Sales s join Products p on s.product_id=p.id group by p.name;

@@ -1,0 +1,46 @@
+create database Library;
+
+use Library;
+
+Create Table Books(    
+id INT Primary Key Auto_Increment,
+title VARCHAR(100) Not Null,
+author VARCHAR(50) Not Null,
+published_year YEAR Not Null,
+genre VARCHAR(30)
+);
+
+create table Members(
+id INT Primary Key Auto_Increment,
+name VARCHAR(50) Not Null,
+membership_date DATE Not Null
+);
+
+create table Borrowing(    
+id INT Primary Key Auto_Increment,
+book_id INT,
+Foreign Key (book_id) References Books(id),
+member_id INT,
+Foreign Key (member_id) References Members(id),
+borrow_date DATE Not Null,
+return_date DATE
+);
+
+
+use Library;
+
+select * from Books;
+select * from Members;
+select * from Borrowing;
+insert into Books values(1,'Monk who sold his ferrari','Robin sharma',2008,'self help'),(2,'The naked face','sidney sheldon',2012,'crime thriller'),(3,'The alchemist','paulo coulo',2010,'fiction');
+insert into Members values(1,'Sahil','2024-10-18'),(2,'Cladin','2024-10-20'),(3,'Richard','2024-10-11');
+insert into Borrowing values(1,2,1,'2024-10-12','2024-10-31'),(2,3,3,'2024-10-9','2024-11-30'),(3,1,2,'2024-09-11','2024-10-22');
+
+select title from Books;
+select name from Members;
+
+select bo.id,bo.book_id,bo.member_id,bo.borrow_date,bo.return_date,b.title, m.name from Borrowing bo
+join Books b on bo.book_id=b.id
+join Members m on bo.member_id=m.id;
+
+select distinct member_id, count(book_id) from Borrowing group by member_id;

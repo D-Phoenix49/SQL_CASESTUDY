@@ -1,0 +1,50 @@
+create database phoenix;
+use phoenix;
+
+drop table casestudy;
+
+create table casestudy(
+id int primary key,
+fullname varchar(20) not null,
+age int default '25',
+gender varchar(30) default 'Not Specified',
+salary int,
+pan varchar(20) unique,
+city varchar(70) not null default 'chennai',
+email varchar(70) unique,
+mobile int,
+d_id int,
+foreign key(d_id) references phoenix.department(d_id),
+country varchar(20) default 'india',
+check (age > 18 and age <= 65),
+check ( gender = 'Male' or gender = 'Female' or gender = 'Other'),
+check (salary >15000  and salary <= 50000),
+check (char_length(fullname) > 3),
+check (length(mobile)=10)
+);
+
+insert into casestudy(id,fullname,age,gender,salary,pan,email,mobile,d_id) values (1,'Ph','20','Female',20000,'dtrvh4656','abc@gmail.com',1234657965, 3)	
+Error Code: 3819. Check constraint 'casestudy_chk_4' is violated.	0.000 sec
+check 4 is fullname
+
+insert into casestudy(id,fullname,age,gender,salary,pan,email,mobile,d_id) values (1,'Phoenix','17','Female',20000,'dtrvh4656','abc@gmail.com',1234657965, 3)	
+Error Code: 3819. Check constraint 'casestudy_chk_1' is violated.	0.000 sec
+check 1 is age
+
+insert into casestudy(id,fullname,age,gender,salary,pan,email,mobile,d_id) values (1,'Phoenix','20','new',20000,'dtrvh4656','abc@gmail.com',1234657965, 3)	
+Error Code: 3819. Check constraint 'casestudy_chk_2' is violated.	0.000 sec
+check 2 is gender
+
+insert into casestudy(id,fullname,age,gender,salary,pan,email,mobile,d_id) values (1,'Phoenix','20','Female',9000,'dtrvh4656','abc@gmail.com',1234657965, 3)	
+Error Code: 3819. Check constraint 'casestudy_chk_3' is violated.	0.000 sec
+check 3 is salary
+
+insert into casestudy(id,fullname,age,gender,salary,pan,email,mobile,d_id) values (1,'Phoenix','20','Female',20000,'dtrvh4656','abc@gmail.com',12346579656, 3)	
+Error Code: 1264. Out of range value for column 'mobile' at row 1	0.000 sec
+
+insert into casestudy(id,fullname,age,gender,salary,pan,email,mobile,d_id) values (1,'Phoenix','20','Female',20000,'dtrvh4656','abc@gmail.com',1234657965, 7)	
+Error Code: 1452. Cannot add or update a child row: a foreign key constraint fails (`phoenix`.`casestudy`, CONSTRAINT `casestudy_ibfk_1` FOREIGN KEY (`d_id`) REFERENCES `department` (`d_id`))	0.015 sec
+foreign key constraint
+657965, 3)	
+
+insert into casestudy(id,fullname,age,gender,salary,pan,email,mobile,d_id) values (1,'Phoenix','20','Female',20000,'dtrvh4656','abc@gmail.com',1234657976, 3);

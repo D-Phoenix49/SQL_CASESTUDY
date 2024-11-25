@@ -1,0 +1,74 @@
+create database EmployeeManagement;
+
+use EmployeeManagement;
+
+create table Departments(
+ id INT Primary Key auto_increment,
+ name VARCHAR(50) not null
+ );
+
+create table Employees( 
+id INT Primary Key Auto_Increment,
+name VARCHAR(50) Not Null,
+age INT Not Null,
+gender VARCHAR(10) Not Null,
+salary INT Not Null Check (Salary > 30000),
+department_id int,
+foreign key (department_id) references EmployeeManagement.Departments(id)
+);
+
+create table Employee_Projects(
+employee_id int,
+project_id int,
+Foreign Key (employee_id) References EmployeeManagement.Employees(id),
+Foreign Key (project_id) References EmployeeManagement.Projects(id),
+primary key(employee_id,project_id)
+);
+
+create table Attendance(
+id INT Primary Key Auto_Increment,
+employee_id INT,
+Foreign Key (employee_id) References Employees(id),
+Date date Not Null,
+status ENUM('Present', 'Absent', 'On Leave')
+);
+
+alter table employees add column email varchar(50);
+
+
+use employeemanagement;
+
+insert into Employees values(11,'abc',25,'Female',40000,1);
+create table Projects(
+id INT Primary Key Auto_Increment,
+name VARCHAR(50) Not Null,
+budget INT Not Null Check (Budget > 10000)
+);
+
+select * from employees;
+SELECT * FROM employeemanagement.departments;
+SELECT * FROM employeemanagement.employee_projects;
+SELECT * FROM employeemanagement.projects;
+SELECT * FROM employeemanagement.attendance;
+
+select * from employees e join departments d on e.department_id = d.id where d.name = 'IT';
+select * from projects where budget > 50000;
+select e.id , pj.name from employees e join employee_projects p join projects pj on pj.id = p.project_id on e.id = p.employee_id;
+select department_id , count(id) from employees group by department_id;
+select * from employees where salary > 50000;
+select * from attendance where employee_id = 1;
+
+
+select * from employees e join departments d on e.department_id = d.id;
+update employees  set salary = salary +  salary * 0.1  where department_id in ( select id from departments where name='HR');
+update employees set department_id = 4 where id = 2;
+
+
+select * from employees e join attendance a on a.employee_id = e.id;
+delete from employees where id in (select employee_id from attendance where status = 'On Leave');
+DELETE e FROM employees e JOIN attendance a ON e.id = a.employee_id WHERE a.status = 'On Leave';
+
+
+
+
+

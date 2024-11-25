@@ -1,0 +1,37 @@
+create database Student;
+
+create table Students(     
+id INT Primary Key Auto_Increment,
+name VARCHAR(50) Not Null,
+age INT Not Null,
+email VARCHAR(50) Not Null Unique
+);
+
+create table Courses(    
+id INT Primary Key Auto_Increment,
+name VARCHAR(50) Not Null
+);
+
+create table Enrollments (     
+student_id INT,
+Foreign Key (student_id) References Students(id),
+course_id INT,
+Foreign Key (course_id ) References Courses(id),
+grade CHAR(1),
+Primary Key (student_id,course_id)
+);
+
+use Student;
+
+select* from Students;
+select* from Courses;
+select* from Enrollments;
+
+insert into Students values ('1','Ram','18','ram123@gmail.com'),('2','Ravi','21','ravi123@gmail.com'),('3','sham','24','sham123@gmail.com');
+insert into Courses values ('1','Analytics'), ('2','Full Stack Developer'), ('3','Tester');
+insert into Enrollments values (1,2,'A'),(2,3,'C'),(3,1,'D');
+
+Select name from Students;
+Select name from Courses;
+select s.name as Student_Name, c.name as Course_Name from Students s join Enrollments e on s.id = e.student_id join Courses c on c.id = e.course_id;
+select count(name),name from Courses group by name;
